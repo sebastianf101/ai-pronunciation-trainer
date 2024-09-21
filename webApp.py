@@ -34,14 +34,17 @@ def getNext():
 
 @app.route(rootPath+'/GetAccuracyFromRecordedAudio', methods=['POST'])
 def GetAccuracyFromRecordedAudio():
-
-    event = {'body': json.dumps(request.get_json(force=True))}
-    lambda_correct_output = lambdaSpeechToScore.lambda_handler(event, [])
+    try:
+        event = {'body': json.dumps(request.get_json(force=True))}
+        lambda_correct_output = lambdaSpeechToScore.lambda_handler(event, [])
+    except Exception as e:
+        import traceback
+        print(e)
+        print(traceback.format_exc())
     return lambda_correct_output
 
-
 if __name__ == "__main__":
-    language = 'de'
+    language = 'en'
     print(os.system('pwd'))
     webbrowser.open_new('http://127.0.0.1:3000/')
     app.run(host="0.0.0.0", port=3000)
